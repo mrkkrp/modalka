@@ -1,5 +1,7 @@
 # Modalka
 
+*Work in progress.*
+
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![Build Status](https://travis-ci.org/mrkkrp/modalka.svg?branch=master)](https://travis-ci.org/mrkkrp/modalka)
 
@@ -47,10 +49,10 @@ I propose you set up the most frequently used key bindings “Emacs-way”. Most
 packages also follow conventions of Emacs world, don't fight it, setup
 everything conventionally.
 
-This applies to actual editing itself, `grep`, `man`, `gnus` — all this is
-recommended to be called using key sequences and calling of these commands
-should not be modal, you only should make modal “intense” editing commands
-that you use very often.
+This applies to actual editing, `grep`, `man`, `gnus` — all these goodies
+are recommended to be called using key sequences and calling of these
+commands should not necessarily be modal, you only should make modal
+“intense” editing commands that you use very often.
 
 When you have your key bindings set up traditionally, you're OK. The only
 thing you need to change now is how you press the key bindings, make it
@@ -72,9 +74,9 @@ trying.
 #### Evil
 
 [`evil`](https://gitorious.org/evil) is popular because Vi (and Vim) are
-popular. Vi (and Vim) are more popular than Emacs itself. Emulation of
-Vi-style modal editing for Emacs is provided by several various modes, but
-most advanced one is `evil`.
+popular. In fact, Vi (and Vim) are more popular than Emacs itself. Emulation
+of Vi-style modal editing for Emacs is provided by several various modes,
+but most advanced one is `evil`.
 
 What's wrong with it? Well, you see, Emacs is very flexible and can be Vim,
 of course, with sufficient effort, but Emacs is not Vim. Emacs has different
@@ -83,7 +85,7 @@ conventions (mostly). Then if you are using `evil` to edit text you will
 need to either accept that you edit text with different set of key bindings
 than key bindings used everywhere else or try to “convert” Emacs further.
 
-To convert Emacs further you will need sort of bridge package per every
+To convert Emacs further you will need sort of bridge package for every
 more-or-less complex thing: `evil-org`, `evil-smartparens`, et cetera.
 
 Modalka helps you use Emacs how it is supposed to be used, but adds modal
@@ -131,7 +133,7 @@ learn. If you want to follow this example making the changes in your Emacs
 configuration along the way you should first install `modalka`. Installation
 instructions are given [in the next section](#installation).
 
-Here is simple collection of translation that Emacs user could easily adopt:
+Here is simple collection of translations that Emacs user could easily adopt:
 
 ```emacs-lisp
 (modalka-define-kbd "W" "M-w")
@@ -149,7 +151,8 @@ Here is simple collection of translation that Emacs user could easily adopt:
 (modalka-define-kbd "SPC" "C-SPC")
 ```
 
-When in normal mode with such a setup, you would kill two lines of text like
+For now you can use <kbd>M-x modalka-mode</kbd> to try it. When in normal
+mode (`modalka-mode`) with such a setup, you can kill two lines of text like
 this: <kbd>SPC n n w</kbd>. If you're missing numeric prefixes it's easy to
 add them:
 
@@ -186,7 +189,7 @@ There is a set of functions to define key translations and to remove them:
 * `modalka-remove-key`
 * `modalka-remove-keys`
 
-Here is versions that wrap arguments with `kbd`:
+Here are versions that wrap arguments with `kbd`:
 
 * `modalka-define-kbd`
 * `modalka-define-kbds`
@@ -197,7 +200,7 @@ Using these functions it's easy to setup your translation map.
 
 ### How to activate the minor mode
 
-You should bind some key to toggle `modalka-mode`. This is should be easy
+You should bind some key to toggle `modalka-mode`. This should be an easy
 key: one key pressing, easy to reach. I would even advice binding
 <kbd>;</kbd> or <kbd>↵ Enter</kbd>, but it's up to you. Bind it globally,
 like this:
@@ -227,7 +230,7 @@ You can omit all of these if you prefer always start in insert mode.
 
 ### Change cursor shape for visual feedback
 
-`modalka-mode` comes with a lighter, currently it's in from of an up arrow
+`modalka-mode` comes with a lighter, currently it's in from of up arrow
 “↑”. I don't recommend disabling it because you need some visual feedback to
 know if you are in `modalka-mode` or not.
 
