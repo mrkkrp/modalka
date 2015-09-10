@@ -213,7 +213,7 @@ you. If you want to enable it everywhere, just add the following to your
 configuration file:
 
 ```emacs-lisp
-(modalka-global-map 1)
+(modalka-global-mode 1)
 ```
 
 However it may be better to enable `modalka-mode` only in modes where you
