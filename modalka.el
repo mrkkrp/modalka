@@ -62,22 +62,20 @@ variable should follow the same conventions."
              (cons  :tag "display a horizontal bar cursor with given height"
                     (const hbar (integer :tag "height of cursor")))))
 
-(defvar modalka--translations nil
-  "Alist consisting of translation key pairs.
-
-Every pair is of this form:
-
-  (ACTUAL-KEY TARGET-KEY)
-
-This variable is used by `modalka--setup-translations'.  Please
-don't edit this manually, use `modalka-define-key' and
-`modalka-define-keys' instead.")
+(defvar modalka-mode-map (make-sparse-keymap)
+  "This is Modalka mode map, used to translate your keys.")
 
 ;;;###autoload
 (defun modalka-define-key (actual-key target-key)
   "Register translation from ACTUAL-KEY to TARGET-KEY."
-  (cl-pushnew (list actual-key target-key) modalka--translations
-              :test #'equal))
+  (define-key
+    modalka-mode-map
+    actual-key
+    (lambda ()
+      (interactive)
+      (let ((binding (key-binding target-key)))
+        (unless (memq binding '(nil undefined))
+          (call-interactively binding))))))
 
 ;;;###autoload
 (defun modalka-define-kbd (actual-kbd target-kbd)
@@ -116,9 +114,7 @@ macros (see `edmacro-mode')."
   "Unregister translation from KEY.
 
 Don't call when `modalka-mode' is enabled."
-  (cl-delete key modalka--translations
-             :key  #'car
-             :test #'equal))
+  (define-key modalka-mode-map key nil))
 
 ;;;###autoload
 (defun modalka-remove-kbd (kbd)
@@ -130,26 +126,12 @@ Don't call when `modalka-mode' is enabled."
   "Unregister translation for KEYS.
 
 Don't call when `modalka-mode' is enabled."
-  (cl-delete-if (lambda (x) (member x keys))
-                modalka--translations))
+  (mapc #'modalka-remove-key keys))
 
 ;;;###autoload
 (defun modalka-remove-kbds (&rest kbds)
   "Unregister translation for KBDS."
   (apply #'modalka-remove-keys (mapcar #'kbd kbds)))
-
-(defun modalka--setup-translations (enable)
-  "Setup key translation for current buffer.
-
-If ENABLE argument is non-NIL, activate Modalka translations and
-remove them otherwise."
-  (let ((m (copy-keymap key-translation-map)))
-    (if (null enable)
-        (setq-local key-translation-map
-                    (default-value 'key-translation-map))
-      (dolist (args modalka--translations)
-        (apply #'define-key m args))
-      (setq-local key-translation-map m))))
 
 ;;;###autoload
 (define-minor-mode modalka-mode
@@ -163,8 +145,7 @@ the mode if ARG is omitted or NIL, and toggle it if ARG is
 This minor mode setups translation of key bindings according to
 configuration created previously with `modalka-define-key' and
 `modalka-define-keys'."
-  nil "↑" nil
-  (modalka--setup-translations modalka-mode)
+  nil "↑" modalka-mode-map
   (setq-local cursor-type
               (if modalka-mode
                   modalka-cursor-type

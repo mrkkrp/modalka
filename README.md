@@ -1,7 +1,5 @@
 # Modalka
 
-*Work in progress.*
-
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![Build Status](https://travis-ci.org/mrkkrp/modalka.svg?branch=master)](https://travis-ci.org/mrkkrp/modalka)
 
@@ -140,7 +138,6 @@ Here is simple collection of translations that Emacs user could easily adopt:
 (modalka-define-kbd "Y" "M-y")
 (modalka-define-kbd "a" "C-a")
 (modalka-define-kbd "b" "C-b")
-(modalka-define-kbd "c" "C-c")
 (modalka-define-kbd "e" "C-e")
 (modalka-define-kbd "f" "C-f")
 (modalka-define-kbd "g" "C-g")
