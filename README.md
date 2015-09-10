@@ -193,7 +193,8 @@ Here are versions that wrap arguments with `kbd`:
 * `modalka-remove-kbd`
 * `modalka-remove-kbds`
 
-Using these functions it's easy to setup your translation map.
+Using these functions it's easy to setup your translation map. Note that
+target key binding cannot be prefix key (prefix keys will be ignored).
 
 ### How to activate the minor mode
 

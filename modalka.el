@@ -74,7 +74,8 @@ variable should follow the same conventions."
     (lambda ()
       (interactive)
       (let ((binding (key-binding target-key)))
-        (unless (memq binding '(nil undefined))
+        (unless (or (memq binding '(nil undefined))
+                    (keymapp binding))
           (call-interactively binding))))))
 
 ;;;###autoload
