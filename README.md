@@ -1,7 +1,5 @@
 # Modalka
 
-*Work in progress.*
-
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
 [![Build Status](https://travis-ci.org/mrkkrp/modalka.svg?branch=master)](https://travis-ci.org/mrkkrp/modalka)
 
@@ -15,6 +13,9 @@
   * [Example](#example)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [How to define translations](#how-to-define-translations)
+  * [How to activate the minor mode](#how-to-activate-the-minor-mode)
+  * [Change cursor shape for visual feedback](#change-cursor-shape-for-visual-feedback)
 * [Customization](#customization)
 * [License](#license)
 
@@ -130,7 +131,36 @@ learn. If you want to follow this example making the changes in your Emacs
 configuration along the way you should first install `modalka`. Installation
 instructions are given [in the next section](#installation).
 
-*Coming soon…*
+Here is simple collection of translation that Emacs user could easily adopt:
+
+```emacs-lisp
+(modalka-define-kbd "W" "M-w")
+(modalka-define-kbd "Y" "M-y")
+(modalka-define-kbd "a" "C-a")
+(modalka-define-kbd "b" "C-b")
+(modalka-define-kbd "c" "C-c")
+(modalka-define-kbd "e" "C-e")
+(modalka-define-kbd "f" "C-f")
+(modalka-define-kbd "g" "C-g")
+(modalka-define-kbd "n" "C-n")
+(modalka-define-kbd "p" "C-p")
+(modalka-define-kbd "w" "C-w")
+(modalka-define-kbd "y" "C-y")
+(modalka-define-kbd "SPC" "C-SPC")
+```
+
+When in normal mode with such a setup, you would kill two lines of text like
+this: <kbd>SPC n n w</kbd>. If you're missing numeric prefixes it's easy to
+add them:
+
+```emacs-lisp
+(modalka-define-kbd "2" "C-2")
+```
+
+Now you can kill twenty-two lines <kbd>SPC 2 2 n w</kbd>. You get the idea,
+everything depends on your imagination now!
+
+*Hint: some useful tips are described in [Usage](#usage) section.*
 
 ## Installation
 
@@ -144,11 +174,85 @@ this:
 
 ## Usage
 
-*Coming soon…*
+Modalka implemented as a minor mode called `modalka-mode`. This section
+describes how to set up efficient modal editing and provides some tips.
+
+### How to define translations
+
+There is a set of functions to define key translations and to remove them:
+
+* `modalka-define-key`
+* `modalka-define-keys`
+* `modalka-remove-key`
+* `modalka-remove-keys`
+
+Here is versions that wrap arguments with `kbd`:
+
+* `modalka-define-kbd`
+* `modalka-define-kbds`
+* `modalka-remove-kbd`
+* `modalka-remove-kbds`
+
+Using these functions it's easy to setup your translation map.
+
+### How to activate the minor mode
+
+You should bind some key to toggle `modalka-mode`. This is should be easy
+key: one key pressing, easy to reach. I would even advice binding
+<kbd>;</kbd> or <kbd>↵ Enter</kbd>, but it's up to you. Bind it globally,
+like this:
+
+```emacs-lisp
+(global-set-key (kbd "<return>") #'modalka-mode)
+```
+
+The next thing to consider is whether `modalka-mode` should be enabled by
+default and where. There is no default setup, the whole thing is up to
+you. If you want to enable it everywhere, just add the following to your
+configuration file:
+
+```emacs-lisp
+(modalka-global-map 1)
+```
+
+However it may be better to enable `modalka-mode` only in modes where you
+need to edit text:
+
+```emacs-lisp
+(add-hook 'text-mode-hook #'modalka-mode)
+(add-hook 'prog-mode-hook #'modalka-mode)
+```
+
+You can omit all of these if you prefer always start in insert mode.
+
+### Change cursor shape for visual feedback
+
+`modalka-mode` comes with a lighter, currently it's in from of an up arrow
+“↑”. I don't recommend disabling it because you need some visual feedback to
+know if you are in `modalka-mode` or not.
+
+However you can improve visual feedback by using different shapes of cursor
+according to editing mode you are in (normal mode — `modalka-mode` and
+insert mode — your normal Emacs editing).
+
+You can specify what your cursor looks like by setting `cursor-type`
+value. I suggest using vertical bar cursor in insert mode and box cursor in
+normal mode. Modalka uses cursor specified in `modalka-cursor-type`
+variable, so the whole setup might look like this:
+
+```emacs-lisp
+(setq-default cursor-type '(bar . 1))
+(setq modalka-cursor-type 'box)
+```
+
+And that's it! Now it's obvious what mode you're in.
 
 ## Customization
 
-*Coming soon…*
+`modalka-mode` is normal minor mode. This means you can use
+`modal-mode-hook` to define your hooks. You can use customization interface
+to customize Modalka-related variables like this: <kbd>M-x
+customize-interface modalka RET</kbd>.
 
 ## License
 
