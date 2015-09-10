@@ -29,6 +29,8 @@
 ;; goal of the package is making modal editing in Emacs as natural and
 ;; native as possible. There is no hack, no corner cases, no emulation —
 ;; just start edit modally the way you want.
+;;
+;; More information is available in the README.md file.
 
 ;;; Code:
 
@@ -41,7 +43,7 @@
   :prefix "modalka-"
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/modalka"))
 
-(defcustom modalka-cursor-type 'box
+(defcustom modalka-cursor-type t
   "Cursor type to use in `modalka-mode'.
 
 See description of `cursor-type' for mode information, this
@@ -68,23 +70,48 @@ Every pair is of this form:
   (ACTUAL-KEY TARGET-KEY)
 
 This variable is used by `modalka--setup-translations'.  Please
-don't edit this manually, use `modalka-set-key' and
-`modalka-set-keys' instead.")
+don't edit this manually, use `modalka-define-key' and
+`modalka-define-keys' instead.")
 
-(defun modalka-set-key (actual-key target-key)
+;;;###autoload
+(defun modalka-define-key (actual-key target-key)
   "Register translation from ACTUAL-KEY to TARGET-KEY."
   (cl-pushnew (list actual-key target-key) modalka--translations
               :test #'equal))
 
-(defun modalka-set-keys (&rest pairs)
+;;;###autoload
+(defun modalka-define-kbd (actual-kbd target-kbd)
+  "Register translation from ACTUAL-KBD to TARGET-KBD.
+
+Arguments are accepted in in the format used for saving keyboard
+macros (see `edmacro-mode')."
+  (modalka-define-key (kbd actual-kbd) (kbd target-kbd)))
+
+;;;###autoload
+(defun modalka-define-keys (&rest pairs)
   "Register many translations described by PAIRS.
 
 Every pair should be of this form:
 
   (ACTUAL-KEY TARGET-KEY)"
   (dolist (args pairs)
-    (apply #'modalka-set-key args)))
+    (apply #'modalka-define-key args)))
 
+;;;###autoload
+(defun modalka-define-kbds (&rest pairs)
+  "Rester many translation described by PAIRS.
+
+Every pair should be of this form:
+
+  (ACTUAL-KEY TARGET-KEY)
+
+Arguments are accepted in in the format used for saving keyboard
+macros (see `edmacro-mode')."
+  (dolist (args pairs)
+    (cl-destructuring-bind (actual . target) args
+      (modalka-define-key (kbd actual) (kbd target)))))
+
+;;;###autoload
 (defun modalka-remove-key (key)
   "Unregister translation from KEY.
 
@@ -93,12 +120,23 @@ Don't call when `modalka-mode' is enabled."
              :key  #'car
              :test #'equal))
 
+;;;###autoload
+(defun modalka-remove-kbd (kbd)
+  "Unregister translation from KBD."
+  (modalka-remove-kbd (kbd kbd)))
+
+;;;###autoload
 (defun modalka-remove-keys (&rest keys)
   "Unregister translation for KEYS.
 
 Don't call when `modalka-mode' is enabled."
   (cl-delete-if (lambda (x) (member x keys))
                 modalka--translations))
+
+;;;###autoload
+(defun modalka-remove-kbds (&rest kbds)
+  "Unregister translation for KBDS."
+  (apply #'modalka-remove-keys (mapcar #'kbd kbds)))
 
 (defun modalka--setup-translations (enable)
   "Setup key translation for current buffer.
@@ -113,6 +151,7 @@ remove them otherwise."
         (apply #'define-key m args))
       (setq-local key-translation-map m))))
 
+;;;###autoload
 (define-minor-mode modalka-mode
   "Toggle `modalka-mode' minor mode.
 
@@ -122,8 +161,8 @@ the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
 This minor mode setups translation of key bindings according to
-configuration created previously with `modalka-set-key' and
-`modalka-set-keys'."
+configuration created previously with `modalka-define-key' and
+`modalka-define-keys'."
   nil "↑" nil
   (modalka--setup-translations modalka-mode)
   (setq-local cursor-type
