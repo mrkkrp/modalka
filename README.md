@@ -1,6 +1,7 @@
 # Modalka
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
+[![MELPA](http://melpa.org/packages/modalka-badge.svg)](http://melpa.org/#/modalka)
 [![Build Status](https://travis-ci.org/mrkkrp/modalka.svg?branch=master)](https://travis-ci.org/mrkkrp/modalka)
 
 * [What is this?](#what-is-this)
@@ -45,7 +46,7 @@ similar to existing basic Emacs commands).
 
 I propose you set up the most frequently used key bindings “Emacs-way”. Most
 packages also follow conventions of Emacs world, don't fight it, setup
-everything conventionally.
+everything more or less conventionally.
 
 This applies to actual editing, `grep`, `man`, `gnus` — all these goodies
 are recommended to be called using key sequences and calling of these
@@ -162,6 +163,9 @@ everything depends on your imagination now!
 
 *Hint: some useful tips are described in [Usage](#usage) section.*
 
+*For example of complete, “real word” setup see
+[this](https://github.com/mrkkrp/dot-emacs#modal-editing).*
+
 ## Installation
 
 If you would like to install the package manually, download or clone it and
@@ -171,6 +175,9 @@ this:
 ```emacs-lisp
 (require 'modalka)
 ```
+
+It's available via MELPA, so you can just <kbd>M-x package-install RET
+modalka RET</kbd>.
 
 ## Usage
 
@@ -199,7 +206,7 @@ target key binding cannot be prefix key (prefix keys will be ignored).
 ### How to activate the minor mode
 
 You should bind some key to toggle `modalka-mode`. This should be an easy
-key: one key pressing, easy to reach. I would even advice binding
+key: one key pressing, easy to reach. I would even advise binding
 <kbd>;</kbd> or <kbd>↵ Enter</kbd>, but it's up to you. Bind it globally,
 like this:
 
