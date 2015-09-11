@@ -11,7 +11,7 @@
     * [Evil](#evil)
     * [Control Mode](#control-mode)
     * [Fingers and Xah Fly Keys](#fingers-and-xah-fly-keys)
-  * [Example](#example)
+  * [Example of use](#example-of-use)
 * [Installation](#installation)
 * [Usage](#usage)
   * [How to define translations](#how-to-define-translations)
