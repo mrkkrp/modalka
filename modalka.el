@@ -112,26 +112,28 @@ macros (see `edmacro-mode')."
 
 ;;;###autoload
 (defun modalka-remove-key (key)
-  "Unregister translation from KEY.
-
-Don't call when `modalka-mode' is enabled."
+  "Unregister translation from KEY."
   (define-key modalka-mode-map key nil))
 
 ;;;###autoload
 (defun modalka-remove-kbd (kbd)
-  "Unregister translation from KBD."
+  "Unregister translation from KBD.
+
+Arguments are accepted in in the format used for saving keyboard
+macros (see `edmacro-mode')."
   (modalka-remove-kbd (kbd kbd)))
 
 ;;;###autoload
 (defun modalka-remove-keys (&rest keys)
-  "Unregister translation for KEYS.
-
-Don't call when `modalka-mode' is enabled."
+  "Unregister translation for KEYS."
   (mapc #'modalka-remove-key keys))
 
 ;;;###autoload
 (defun modalka-remove-kbds (&rest kbds)
-  "Unregister translation for KBDS."
+  "Unregister translation for KBDS.
+
+Arguments are accepted in in the format used for saving keyboard
+macros (see `edmacro-mode')."
   (apply #'modalka-remove-keys (mapcar #'kbd kbds)))
 
 ;;;###autoload
