@@ -49,18 +49,17 @@
 See description of `cursor-type' for mode information, this
 variable should follow the same conventions."
   :tag "Cursor Type"
-  :type '(or (const :tag "use the cursor specified for the frame" t)
-             (const :tag "don't display a cursor"                 nil)
-             (const :tag "display a filled box cursor"            box)
-             (const :tag "display a hollow box cursor"            hollow)
-             (const :tag "display a vertical bar cursor with default width"
-                    bar)
-             (cons  :tag "display a vertical bar cursor with given width"
-                    (const bar) (integer :tag "width of cursor"))
-             (const :tag "display a horizontal bar cursor with default height"
-                    hbar)
-             (cons  :tag "display a horizontal bar cursor with given height"
-                    (const hbar (integer :tag "height of cursor")))))
+  :type '(choice
+          (const :tag "use the cursor specified for the frame" t)
+          (const :tag "don't display a cursor" nil)
+          (const :tag "display a filled box cursor" box)
+          (const :tag "display a hollow box cursor" hollow)
+          (const :tag "display a vertical bar cursor with default width" bar)
+          (cons  :tag "display a vertical bar cursor with given width"
+                 (const bar) (integer :tag "width of cursor"))
+          (const :tag "display a horizontal bar cursor with default height" hbar)
+          (cons  :tag "display a horizontal bar cursor with given height"
+                 (const hbar (integer :tag "height of cursor")))))
 
 (defvar modalka-mode-map (make-sparse-keymap)
   "This is Modalka mode map, used to translate your keys.")
