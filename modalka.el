@@ -86,30 +86,6 @@ macros (see `edmacro-mode')."
   (modalka-define-key (kbd actual-kbd) (kbd target-kbd)))
 
 ;;;###autoload
-(defun modalka-define-keys (&rest pairs)
-  "Register many translations described by PAIRS.
-
-Every pair should be of this form:
-
-  (ACTUAL-KEY TARGET-KEY)"
-  (dolist (args pairs)
-    (apply #'modalka-define-key args)))
-
-;;;###autoload
-(defun modalka-define-kbds (&rest pairs)
-  "Rester many translation described by PAIRS.
-
-Every pair should be of this form:
-
-  (ACTUAL-KEY TARGET-KEY)
-
-Arguments are accepted in in the format used for saving keyboard
-macros (see `edmacro-mode')."
-  (dolist (args pairs)
-    (cl-destructuring-bind (actual . target) args
-      (modalka-define-key (kbd actual) (kbd target)))))
-
-;;;###autoload
 (defun modalka-remove-key (key)
   "Unregister translation from KEY."
   (define-key modalka-mode-map key nil))
@@ -121,19 +97,6 @@ macros (see `edmacro-mode')."
 Arguments are accepted in in the format used for saving keyboard
 macros (see `edmacro-mode')."
   (modalka-remove-kbd (kbd kbd)))
-
-;;;###autoload
-(defun modalka-remove-keys (&rest keys)
-  "Unregister translation for KEYS."
-  (mapc #'modalka-remove-key keys))
-
-;;;###autoload
-(defun modalka-remove-kbds (&rest kbds)
-  "Unregister translation for KBDS.
-
-Arguments are accepted in in the format used for saving keyboard
-macros (see `edmacro-mode')."
-  (apply #'modalka-remove-keys (mapcar #'kbd kbds)))
 
 ;;;###autoload
 (define-minor-mode modalka-mode

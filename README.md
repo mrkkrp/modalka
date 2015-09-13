@@ -20,6 +20,8 @@
 * [Customization](#customization)
 * [License](#license)
 
+improve reviews, add the following things: `god-mode`, `boon`, `ergoemacs-mode`
+
 ## What is this?
 
 This is a building kit to help switch to modal editing in Emacs. Main goal
@@ -189,16 +191,12 @@ describes how to set up efficient modal editing and provides some tips.
 There is a set of functions to define key translations and to remove them:
 
 * `modalka-define-key`
-* `modalka-define-keys`
 * `modalka-remove-key`
-* `modalka-remove-keys`
 
 Here are versions that wrap arguments with `kbd`:
 
 * `modalka-define-kbd`
-* `modalka-define-kbds`
 * `modalka-remove-kbd`
-* `modalka-remove-kbds`
 
 Using these functions it's easy to setup your translation map. Note that
 target key binding cannot be prefix key (prefix keys will be ignored).
@@ -259,8 +257,8 @@ And that's it! Now it's obvious what mode you're in.
 
 `modalka-mode` is normal minor mode. This means you can use
 `modal-mode-hook` to define your hooks. You can use customization interface
-to customize Modalka-related variables like this: <kbd>M-x
-customize-interface modalka RET</kbd>.
+to customize Modalka-related variables like this: <kbd>M-x customize-group
+modalka RET</kbd>.
 
 ## License
 
