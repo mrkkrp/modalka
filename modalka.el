@@ -61,6 +61,15 @@ variable should follow the same conventions."
           (cons  :tag "display a horizontal bar cursor with given height"
                  (const hbar (integer :tag "height of cursor")))))
 
+;;;###autoload
+(defcustom modalka-excluded-modes nil
+  "List of major modes for which `modalka-mode' should not be activated.
+
+This variable is considered when Modalka is enabled globally via
+`modalka-global-mode'."
+  :tag  "Excluded Modes"
+  :type '(repeat :tag "Major modes to exclude" symbol))
+
 (defvar modalka-mode-map (make-sparse-keymap)
   "This is Modalka mode map, used to translate your keys.")
 
@@ -116,8 +125,18 @@ configuration created previously with `modalka-define-key' and
                   modalka-cursor-type
                 (default-value 'cursor-type))))
 
+(defun modalka--maybe-activate ()
+  "Activate `modalka-mode' if current buffer is not minibuffer or blacklisted.
+
+This is used by `modalka-global-mode'."
+  (unless (or (minibufferp)
+              (member major-mode modalka-excluded-modes))
+    (modalka-mode 1)))
+
+;;;###autoload
 (define-globalized-minor-mode modalka-global-mode
-  modalka-mode modalka-mode)
+  modalka-mode
+  modalka--maybe-activate)
 
 (provide 'modalka)
 
