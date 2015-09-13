@@ -221,6 +221,15 @@ configuration file:
 (modalka-global-mode 1)
 ```
 
+This will enable `modalka-mode` in every buffer except for minibuffer. You
+can also avoid enabling `modalka-mode` when buffer is in certain major
+mode. To do that add names of major modes to `modalka-excluded-modes` list,
+like this:
+
+```emacs-lisp
+(add-to-list 'modalka-excluded-modes 'magit-status-mode)
+```
+
 However it may be better to enable `modalka-mode` only in modes where you
 need to edit text:
 
