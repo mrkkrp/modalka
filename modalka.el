@@ -35,6 +35,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'quail)
 
 (defgroup modalka nil
   "Easily introduce native modal editing of your own design"
@@ -137,6 +138,14 @@ This is used by `modalka-global-mode'."
 (define-globalized-minor-mode modalka-global-mode
   modalka-mode
   modalka--maybe-activate)
+
+(defun modalka--input-function-advice (fnc key)
+  "Call FNC with KEY as argument only when `modalka-mode' is enabled.
+
+Otherwise use `list'."
+  (funcall (if modalka-mode #'list fnc) key))
+
+(advice-add 'quail-input-method :around #'modalka--input-function-advice)
 
 (provide 'modalka)
 
