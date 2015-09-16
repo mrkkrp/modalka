@@ -10,7 +10,11 @@
   * [Other solutions](#other-solutions)
     * [Evil](#evil)
     * [Control Mode](#control-mode)
-    * [Fingers and Xah Fly Keys](#fingers-and-xah-fly-keys)
+    * [God Mode](#god-mode)
+    * [Boon](#boon)
+    * [Fingers](#fingers)
+    * [Xah Fly Keys](#xah-fly-keys)
+    * [Ergoemacs Mode](#ergoemacs-mode)
   * [Example of use](#example-of-use)
 * [Installation](#installation)
 * [Usage](#usage)
@@ -74,24 +78,29 @@ trying.
 
 #### Evil
 
-[`evil`](https://gitorious.org/evil) is popular because Vi (and Vim) are
+[Evil](https://gitorious.org/evil) is popular because Vi (and Vim) are
 popular. In fact, Vi (and Vim) are more popular than Emacs itself. Emulation
 of Vi-style modal editing for Emacs is provided by several various modes,
-but most advanced one is `evil`.
+but most advanced one is Evil.
 
 What's wrong with it? Well, you see, Emacs is very flexible and can be Vim,
 of course, with sufficient effort, but Emacs is not Vim. Emacs has different
 traditional keybindings and other parts of Emacs ecosystem follow these
-conventions (mostly). Then if you are using `evil` to edit text you will
-need to either accept that you edit text with different set of key bindings
-than key bindings used everywhere else or try to “convert” Emacs further.
+conventions (mostly). Then if you are using `evil-mode` to edit text you
+will need to either accept that you edit text with different set of key
+bindings than key bindings used everywhere else or try to “convert” Emacs
+further.
 
 To convert Emacs further you will need sort of bridge package for every
 more-or-less complex thing: `evil-org`, `evil-smartparens`, et cetera.
 
-Modalka helps you use Emacs how it is supposed to be used, but adds modal
-interface when you need to edit text, that looks like a more natural
-solution.
+Evil by itself is fairly complex and hooks deep into Emacs internals and can
+cause incompatibilities with other packages. It also makes it harder (or at
+least *intricate*) to hack.
+
+Modalka feels vanilla, it lets you use Emacs how it is supposed to be used,
+but adds modal interface when you need to edit text, that looks like a more
+natural solution.
 
 #### Control Mode
 
@@ -119,13 +128,74 @@ essentially a hack. From my experience it has the following flaws:
 Due to these flaws this cannot be considered as mature solution, indeed it
 has hardly 200 downloads on MELPA being at least 2 years old.
 
-#### Fingers and Xah Fly Keys
+#### God Mode
 
-These are not better then `evil` and they both are very personal. The
-authors have created packages for modal editing as they see it. Both
-packages don't have even 200 downloads and it's easy to explain. These modes
-are different from both Emacs and Vim, they are something completely
-unknown. You can learn them, of course, but is it really worth it?
+[God Mode](https://github.com/chrisdone/god-mode) is quite popular and can
+be considered an improvement over `control-mode`.
+
+However, compared to Modalka, God Mode has certain downsides:
+
+* Design decisions are made for you. You can change something (because it's
+  Emacs), but forming entire key map is not meant to be done by user. I
+  don't mean default workings of God Mode are bad, but I wouldn't call them
+  perfect too.
+
+* Its implementation is far more hairy without any additional benefit. You
+  can do the same things with Modalka if you really want to, and it will
+  always be more robust and bug-free simply because the system is clearer
+  and more minimalistic. God Mode is 299 lines long while Modalka is 153
+  lines and most of it is verbose comments and doc-strings.
+
+* God Mode cannot handle situations with input methods are enabled. Modalka
+  works with enabled input methods with ease.
+
+* You don't need to write hooks to change shape to cursor according to
+  current mode with Modalka, it handles this for you.
+
+#### Boon
+
+[Boon](https://github.com/jyp/boon) is a package for modal editing with
+respect to ergonomics. This package gives you complete implementation of
+modal editing system similar to Vim, but more ergonomic. Well, that's great!
+
+It may take some time to learn it and I'm not entirely sure it will bring
+much difference. Modal editing is easier for sure but ergonomic layout of
+normal mode is somewhat optional for most people. I would value
+compatibility with the rest of Emacs ecosystem more.
+
+Of course it is far more complex than Modalka and you are not supposed to
+change layout (it's carefully designed for you already). I also should note
+that this is for Colemak typists.
+
+#### Fingers
+
+[Figners](https://github.com/fgeller/fingers.el) is another attempt on
+ergonomic modal editing. The same things said for Boon can be repeated
+here. Differences between these packages are not very significant except for
+the fact that Fingers is optimized for Workman keyboard layout.
+
+#### Xah Fly Keys
+
+[Xah Fly Keys](https://github.com/xahlee/xah-fly-keys) is one more package
+for ergonomic modal editing optimized for Dvorak (QWERTY layout is said to
+be supported too). It's big compared to Boon and Fingers: 2202 lines of
+code. If you look at source code you'll see that it has peculiar collection
+of editing primitives, for example you can capitalize things skipping words
+like “and”, “to”, “or”, etc. — something you rarely find in this sort of
+Emacs package. Good dose of Unicode support is guaranteed too!
+
+#### Ergoemacs Mode
+
+According to authors
+[Ergoemacs Mode](https://github.com/ergoemacs/ergoemacs-mode) supports modal
+editing and can even emulate `god-mode`. And that's not all:
+
+> You can either define your own modal keymap, or tell `ergoemacs-mode` that
+> the keyboard layout is the same as the current layout, but with Alt (or
+> control pressed, or swapped, or any sort of other key combination).
+
+It's more hairy of course, but goals of Ergoemacs Mode is entirely different
+from goals of this package and do not include “lightweightness”.
 
 ### Example of use
 
