@@ -194,8 +194,8 @@ editing and can even emulate `god-mode`. And that's not all:
 > the keyboard layout is the same as the current layout, but with Alt (or
 > control pressed, or swapped, or any sort of other key combination).
 
-It's more hairy of course, but goals of Ergoemacs Mode is entirely different
-from goals of this package and do not include “lightweightness”.
+It's more hairy of course, but goals of Ergoemacs Mode are entirely
+different from goals of this package and do not include “lightweightness”.
 
 ### Example of use
 
