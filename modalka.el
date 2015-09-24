@@ -140,7 +140,7 @@ This is used by `modalka-global-mode'."
   modalka--maybe-activate)
 
 (defun modalka--input-function-advice (fnc key)
-  "Call FNC with KEY as argument only when `modalka-mode' is enabled.
+  "Call FNC with KEY as argument only when `modalka-mode' is disabled.
 
 Otherwise use `list'."
   (funcall (if modalka-mode #'list fnc) key))
