@@ -24,8 +24,6 @@
 * [Customization](#customization)
 * [License](#license)
 
-improve reviews, add the following things: `god-mode`, `boon`, `ergoemacs-mode`
-
 ## What is this?
 
 This is a building kit to help switch to modal editing in Emacs. Main goal
