@@ -31,6 +31,15 @@ of the package is making modal editing in Emacs as natural and native as
 possible. There is no hack, no corner cases, no emulation — just start edit
 modally the way you want.
 
+In this article I use “vimish” terms when I refer to modes of operation:
+
+* *Normal mode* — this is where you manipulate existing text, normal
+  characters typically run primitive editing operations instead of
+  self-insertion.
+
+* *Insert mode* — in this mode characters are self-inserting, i.e. it's
+  how Emacs works by default.
+
 ### What Modalka is not
 
 * Modalka does not introduce new “efficient” keyboard layout for normal mode
@@ -42,27 +51,21 @@ modally the way you want.
 
 ### Why should I use it then?
 
-Modal editing is more efficient and is better for your health. You should at
-least try it. This package allows easily switch from <kbd>⎈ Ctrl</kbd> (and
-other modifiers as well) based keys to modal editing and you can do it
-gradually and use your own design (although it's recommended to keep it
-similar to existing basic Emacs commands).
+Modal editing is more efficient, but most importantly it is better for your
+health. You should at least try it. This package allows easily switch from
+<kbd>⎈ Ctrl</kbd> (and other modifiers) -based key combinations to
+performing editing manipulations via normal typing experience and you can do
+it gradually using your own design (although it's recommended to keep it
+similar to commands you already have in *insert mode*).
 
-I propose you set up the most frequently used key bindings “Emacs-way”. Most
-packages also follow conventions of Emacs world, don't fight it, setup
-everything more or less conventionally.
+`grep`, `man`, `gnus` — all these goodies are recommended to be called using
+key sequences and calling of these commands should not necessarily be modal,
+you only should make modal “intense” editing commands that you use very
+often.
 
-This applies to actual editing, `grep`, `man`, `gnus` — all these goodies
-are recommended to be called using key sequences and calling of these
-commands should not necessarily be modal, you only should make modal
-“intense” editing commands that you use very often.
-
-When you have your key bindings set up traditionally, you're OK. The only
-thing you need to change now is how you press the key bindings, make it
-easier.
-
-Here Modalka comes into play. It adds a thin wrapper that translates some
-normally self-inserting characters in normal mode into traditional key
+The only thing you need to set up is how you press the key bindings, make it
+easier. Here Modalka comes into play. It adds a thin wrapper that translates
+some normally self-inserting characters in normal mode into traditional key
 bindings that you specify. In insert mode everything works as usual. This
 way you can work with all existing packages “natively”, without the need for
 any sort of “bridge”.
@@ -94,11 +97,11 @@ more-or-less complex thing: `evil-org`, `evil-smartparens`, et cetera.
 
 Evil by itself is fairly complex and hooks deep into Emacs internals and can
 cause incompatibilities with other packages. It also makes it harder (or at
-least *intricate*) to hack.
+least *intricate*) to hack Emacs.
 
 Modalka feels vanilla, it lets you use Emacs how it is supposed to be used,
 but adds modal interface when you need to edit text, that looks like a more
-natural solution.
+natural solution (at least for me).
 
 #### Control Mode
 
@@ -134,18 +137,16 @@ be considered an improvement over `control-mode`.
 However, compared to Modalka, God Mode has certain downsides:
 
 * Design decisions are made for you. You can change something (because it's
-  Emacs), but forming entire key map is not meant to be done by user. I
-  don't mean default workings of God Mode are bad, but I wouldn't call them
-  perfect too.
+  Emacs), but forming entire key map is not meant to be done by user.
 
 * Its implementation is far more hairy without any additional benefit. You
   can do the same things with Modalka if you really want to, and it will
   always be more robust and bug-free simply because the system is clearer
-  and more minimalistic. God Mode is 299 lines long while Modalka is 153
-  lines and most of it is verbose comments and doc-strings.
+  and more minimalistic.
 
 * God Mode cannot handle situations with input methods are enabled. Modalka
-  works with enabled input methods with ease.
+  works with enabled input methods with ease. This may be important for
+  users working with non-Latin languages.
 
 * You don't need to write hooks to change shape to cursor according to
   current mode with Modalka, it handles this for you.
@@ -154,33 +155,33 @@ However, compared to Modalka, God Mode has certain downsides:
 
 [Boon](https://github.com/jyp/boon) is a package for modal editing with
 respect to ergonomics. This package gives you complete implementation of
-modal editing system similar to Vim, but more ergonomic. Well, that's great!
+modal editing system similar to Vim.
 
 It may take some time to learn it and I'm not entirely sure it will bring
-much difference. Modal editing is easier for sure but ergonomic layout of
-normal mode is somewhat optional for most people. I would value
-compatibility with the rest of Emacs ecosystem more.
+much difference. Modal editing is easier, but ergonomic layout of normal
+mode is somewhat optional for most people. I would value compatibility with
+the rest of Emacs ecosystem more.
 
 Of course it is far more complex than Modalka and you are not supposed to
 change layout (it's carefully designed for you already). I also should note
-that this is for Colemak typists.
+that this is for *Colemak* typists.
 
 #### Fingers
 
 [Figners](https://github.com/fgeller/fingers.el) is another attempt on
 ergonomic modal editing. The same things said for Boon can be repeated
 here. Differences between these packages are not very significant except for
-the fact that Fingers is optimized for Workman keyboard layout.
+the fact that Fingers is optimized for *Workman* keyboard layout.
 
 #### Xah Fly Keys
 
 [Xah Fly Keys](https://github.com/xahlee/xah-fly-keys) is one more package
-for ergonomic modal editing optimized for Dvorak (QWERTY layout is said to
-be supported too). It's big compared to Boon and Fingers: 2202 lines of
-code. If you look at source code you'll see that it has peculiar collection
-of editing primitives, for example you can capitalize things skipping words
-like “and”, “to”, “or”, etc. — something you rarely find in this sort of
-Emacs package. Good dose of Unicode support is guaranteed too!
+for ergonomic modal editing optimized for *Dvorak* (QWERTY layout is said to
+be supported too). It's rather big compared to Boon and Fingers. If you look
+at source code you'll see that it has peculiar collection of editing
+primitives, for example you can capitalize things skipping words like “and”,
+“to”, “or”, etc. — functionality you rarely find in this sort of Emacs
+package. Good dose of Unicode support is guaranteed too!
 
 #### Ergoemacs Mode
 
@@ -192,17 +193,18 @@ editing and can even emulate `god-mode`. And that's not all:
 > the keyboard layout is the same as the current layout, but with Alt (or
 > control pressed, or swapped, or any sort of other key combination).
 
-It's more hairy of course, but goals of Ergoemacs Mode are entirely
+It's more complex of course, but goals of Ergoemacs Mode are entirely
 different from goals of this package and do not include “lightweightness”.
 
 ### Example of use
 
-Let's try to bring modal editing to Emacs that feels natural and is easy to
-learn. If you want to follow this example making the changes in your Emacs
-configuration along the way you should first install `modalka`. Installation
-instructions are given [in the next section](#installation).
+Let's try to bring modal editing to Emacs using Modalka package. If you want
+to follow this example making the changes in your Emacs configuration along
+the way you should first install `modalka`. Installation instructions are
+given [in the next section](#installation).
 
-Here is simple collection of translations that Emacs user could easily adopt:
+Here is simple collection of translations that an Emacs user could easily
+adopt:
 
 ```emacs-lisp
 (modalka-define-kbd "W" "M-w")
@@ -221,8 +223,10 @@ Here is simple collection of translations that Emacs user could easily adopt:
 
 For now you can use <kbd>M-x modalka-mode</kbd> to try it. When in normal
 mode (`modalka-mode`) with such a setup, you can kill two lines of text like
-this: <kbd>SPC n n w</kbd>. If you're missing numeric prefixes it's easy to
-add them:
+this: <kbd>SPC n n w</kbd>. Note that Modalka can translate sequential key
+bindings like <kbd>x ;</kbd> too.
+
+If you're missing numeric prefixes it's easy to add them:
 
 ```emacs-lisp
 (modalka-define-kbd "2" "C-2")
@@ -298,8 +302,8 @@ like this:
 (add-to-list 'modalka-excluded-modes 'magit-status-mode)
 ```
 
-However it may be better to enable `modalka-mode` only in modes where you
-need to edit text:
+However you may want to enable `modalka-mode` only in modes where you need
+to edit text:
 
 ```emacs-lisp
 (add-hook 'text-mode-hook #'modalka-mode)
@@ -315,8 +319,8 @@ You can omit all of these if you prefer always start in insert mode.
 know if you are in `modalka-mode` or not.
 
 However you can improve visual feedback by using different shapes of cursor
-according to editing mode you are in (normal mode — `modalka-mode` and
-insert mode — your normal Emacs editing).
+according to editing mode you are in (*normal mode* — `modalka-mode` and
+*insert mode* — your normal Emacs editing).
 
 You can specify what your cursor looks like by setting `cursor-type`
 value. I suggest using vertical bar cursor in insert mode and box cursor in
@@ -332,10 +336,10 @@ And that's it! Now it's obvious what mode you're in.
 
 ## Customization
 
-`modalka-mode` is normal minor mode. This means you can use
-`modal-mode-hook` to define your hooks. You can use customization interface
-to customize Modalka-related variables like this: <kbd>M-x customize-group
-modalka RET</kbd>.
+`modalka-mode` is a normal minor mode. This means that you can use
+`modal-mode-hook` to define mode-specific hooks. You can use customization
+interface to customize Modalka-related variables like this: <kbd>M-x
+customize-group modalka RET</kbd>.
 
 ## License
 
