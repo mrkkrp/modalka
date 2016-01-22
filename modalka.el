@@ -1,6 +1,6 @@
 ;;; modalka.el --- Easily introduce native modal editing of your own design -*- lexical-binding: t; -*-
 ;;
-;; Copyright © 2015 Mark Karpov <markkarpov@openmailbox.org>
+;; Copyright © 2015–2016 Mark Karpov <markkarpov@openmailbox.org>
 ;;
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
 ;; URL: https://github.com/mrkkrp/modalka
