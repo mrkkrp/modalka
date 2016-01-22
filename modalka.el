@@ -106,7 +106,7 @@ macros (see `edmacro-mode')."
 
 Arguments are accepted in in the format used for saving keyboard
 macros (see `edmacro-mode')."
-  (modalka-remove-kbd (kbd kbd)))
+  (modalka-remove-key (kbd kbd)))
 
 ;;;###autoload
 (define-minor-mode modalka-mode
