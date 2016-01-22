@@ -144,9 +144,9 @@ However, compared to Modalka, God Mode has certain downsides:
   always be more robust and bug-free simply because the system is clearer
   and more minimalistic.
 
-* God Mode cannot handle situations with input methods are enabled. Modalka
-  works with enabled input methods with ease. This may be important for
-  users working with non-Latin languages.
+* God Mode doesn't work with input methods enabled. Modalka works with
+  enabled input methods with ease. This may be important for users working
+  with non-Latin languages.
 
 * You don't need to write hooks to change shape to cursor according to
   current mode with Modalka, it handles this for you.
