@@ -1,7 +1,7 @@
 # Modalka
 
 [![License GPL 3](https://img.shields.io/badge/license-GPL_3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.txt)
-[![MELPA](http://melpa.org/packages/modalka-badge.svg)](http://melpa.org/#/modalka)
+[![MELPA](https://melpa.org/packages/modalka-badge.svg)](https://melpa.org/#/modalka)
 [![Build Status](https://travis-ci.org/mrkkrp/modalka.svg?branch=master)](https://travis-ci.org/mrkkrp/modalka)
 
 * [What is this?](#what-is-this)
