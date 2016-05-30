@@ -87,10 +87,10 @@ This variable is considered when Modalka is enabled globally via
           (unless (or (memq binding '(nil undefined))
                       (keymapp binding))
             (call-interactively binding))))
-      (format "This command translates %s into %s, which calls ‘%s’."
-              (key-description actual-key)
-              (key-description target-key)
-              (key-binding     target-key)))))
+      `(format "This command translates %s into %s, which calls ‘%s’."
+               (key-description ,actual-key)
+               (key-description ,target-key)
+               (key-binding     ,target-key)))))
 
 ;;;###autoload
 (defun modalka-define-kbd (actual-kbd target-kbd)
