@@ -45,9 +45,9 @@
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/modalka"))
 
 (defcustom modalka-cursor-type t
-  "Cursor type to use in ‘modalka-mode’.
+  "Cursor type to use in `modalka-mode'.
 
-See description of ‘cursor-type’ for mode information, this
+See description of `cursor-type' for mode information, this
 variable should follow the same conventions."
   :tag "Cursor Type"
   :type '(choice
@@ -64,10 +64,10 @@ variable should follow the same conventions."
 
 ;;;###autoload
 (defcustom modalka-excluded-modes nil
-  "List of major modes for which ‘modalka-mode’ should not be activated.
+  "List of major modes for which `modalka-mode' should not be activated.
 
 This variable is considered when Modalka is enabled globally via
-‘modalka-global-mode’."
+`modalka-global-mode'."
   :tag  "Excluded Modes"
   :type '(repeat :tag "Major modes to exclude" symbol))
 
@@ -87,7 +87,7 @@ This variable is considered when Modalka is enabled globally via
           (unless (or (memq binding '(nil undefined))
                       (keymapp binding))
             (call-interactively binding))))
-      `(format "This command translates %s into %s, which calls ‘%s’."
+      `(format "This command translates %s into %s, which calls `%s'."
                (key-description ,actual-key)
                (key-description ,target-key)
                (key-binding     ,target-key)))))
@@ -97,7 +97,7 @@ This variable is considered when Modalka is enabled globally via
   "Register translation from ACTUAL-KBD to TARGET-KBD.
 
 Arguments are accepted in in the format used for saving keyboard
-macros (see ‘edmacro-mode’)."
+macros (see `edmacro-mode')."
   (modalka-define-key (kbd actual-kbd) (kbd target-kbd)))
 
 ;;;###autoload
@@ -110,21 +110,21 @@ macros (see ‘edmacro-mode’)."
   "Unregister translation from KBD.
 
 Arguments are accepted in in the format used for saving keyboard
-macros (see ‘edmacro-mode’)."
+macros (see `edmacro-mode')."
   (modalka-remove-key (kbd kbd)))
 
 ;;;###autoload
 (define-minor-mode modalka-mode
-  "Toggle ‘modalka-mode’ minor mode.
+  "Toggle `modalka-mode' minor mode.
 
-With a prefix argument ARG, enable ‘modalka-mode’ if ARG is
+With a prefix argument ARG, enable `modalka-mode' if ARG is
 positive, and disable it otherwise.  If called from Lisp, enable
 the mode if ARG is omitted or NIL, and toggle it if ARG is
-‘toggle’.
+`toggle'.
 
 This minor mode setups translation of key bindings according to
-configuration created previously with ‘modalka-define-key’ and
-‘modalka-define-keys’."
+configuration created previously with `modalka-define-key' and
+`modalka-define-keys'."
   nil "↑" modalka-mode-map
   (setq-local cursor-type
               (if modalka-mode
@@ -132,9 +132,9 @@ configuration created previously with ‘modalka-define-key’ and
                 (default-value 'cursor-type))))
 
 (defun modalka--maybe-activate ()
-  "Activate ‘modalka-mode’ if current buffer is not minibuffer or blacklisted.
+  "Activate `modalka-mode' if current buffer is not minibuffer or blacklisted.
 
-This is used by ‘modalka-global-mode’."
+This is used by `modalka-global-mode'."
   (unless (or (minibufferp)
               (member major-mode modalka-excluded-modes))
     (modalka-mode 1)))
@@ -145,9 +145,9 @@ This is used by ‘modalka-global-mode’."
   modalka--maybe-activate)
 
 (defun modalka--input-function-advice (fnc key)
-  "Call FNC with KEY as argument only when ‘modalka-mode’ is disabled.
+  "Call FNC with KEY as argument only when `modalka-mode' is disabled.
 
-Otherwise use ‘list’."
+Otherwise use `list'."
   (funcall (if modalka-mode #'list fnc) key))
 
 (advice-add 'quail-input-method :around #'modalka--input-function-advice)
