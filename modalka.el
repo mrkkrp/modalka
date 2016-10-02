@@ -126,7 +126,7 @@ If EXIT is t, exit `modalka-mode' before running COMMAND."
 (defun modalka-define-kbd-command (kbd-key command &optional exit)
   "Register KBD-KEY to COMMAND.
 If EXIT is t, exit `modalka-mode' before running COMMAND."
-  (modalka-define-kbd-command (kbd kbd-key) command exit))
+  (modalka-define-key-command (kbd kbd-key) command exit))
 
 ;;;###autoload
 (defun modalka-remove-key (key)
