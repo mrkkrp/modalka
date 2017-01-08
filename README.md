@@ -187,11 +187,47 @@ package. Good dose of Unicode support is guaranteed too!
 
 According to authors
 [Ergoemacs Mode](https://github.com/ergoemacs/ergoemacs-mode) supports modal
-editing and can even emulate `god-mode`. And that's not all:
+editing.
 
-> You can either define your own modal keymap, or tell `ergoemacs-mode` that
-> the keyboard layout is the same as the current layout, but with Alt (or
-> control pressed, or swapped, or any sort of other key combination).
+Ergoemacs also supports modal editing. It doesn't emulate vi, but uses Alt key for most frequently used commands. For example, moving cursor is Alt plus right hand inverted T. (On QWERTY it is <kbd>Alt</kbd>+<kbd>j</kbd> for <kbd>left</kbd>, <kbd>Alt</kbd>+<kbd>l</kbd> for right, <kbd>Alt</kbd>+<kbd>i</kbd> for <kbd>up</kbd> and <kbd>Alt</kbd>+<kbd>k</kbd> for <kbd>down</kbd>). Deleting char or word is <kbd>Alt</kbd> with left hand home-row keys. Key choices are based on command frequency and key's position for ease-of-press.
+
+* To start modal editing, the user can press <kbd>f6</kbd>.  
+ * Once <kbd>f6</kbd> was pressed, the most frequently used keys no longer require an alt key combination.  
+ * Therefore, on QWERTY, <kbd>j</kbd> is <kbd>left</kbd>, <kbd>j</kbd> is <kbd>right</kbd>, <kbd>i</kbd> is <kbd>up</kbd> and <kbd>k</kbd> is down).  
+* The modal command mode is exited by pressing <kbd>return</kbd>, <kbd>f6</kbd> or <kbd>escape</kbd>.
+
+In addition to the traditional modal paradigm, there is a quasi modal paradigm that allows any `C-x` or `C-c` key combination to be reached without using any modifiers (like god-mode). 
+ 
+* The quasi-modal  is started with the QWERTY <kbd>apps</kbd> <kbd>f</kbd> for `C-c` with the control key pressed down and the QWERTY <kbd>apps</kbd> <kbd>d</kbd> for `C-x`.  
+* While completing this key sequence the <kbd>apps</kbd> key will change the type of modifiers that are assumed to be pressed down.  
+* Once the command has been called, ergoemacs resumes the editing mode.
+* During any key sequence you can also change the types of keys that are held down.  This is by simply pressing the <kbd>apps</kbd> key again.
+
+In addition to changing the command keys, ergoemacs-mode allows you to change things about the key sequence while typing it:
+
+* You can edit the prefix argument during the middle of a key sequence by pressing <kbd>f2</kbd>.  
+* Pressing <kbd>backspace</kbd> takes back the last key pressed. 
+* <kbd>Apps</kbd> allows you to change the keys held down during any key sequence.
+
+ergoemacs-mode also attempts to respect anything the mode does to the fundamental keys.  For example, if org-mode defines a special key for `next-line`, ergoemacs uses this command for <kbd>Alt</kbd>+<kbd>k</kbd> when in org-mode.  
+
+**Advantages:**
+
+* Part of GNU Emacs, in ELPA.
+* Supports “universal” Windows/Linux keys out of the box. e.g. Open (`C-o`), Close (`C-w`), Select all (`C-a`), Copy (`C-c`), Cut (`C-x`), Paste (`C-v`), etc.
+* Fairly popular.
+* Supports many layouts, including Qwerty, dvorak, colemak, bepo, and many other international layouts that adjust the keys to make sure they are on the home row (M-i in QWERTY would be M-u in colemak).
+* Shows an image of your keyboard layout in emacs by describing the theme.
+* Keys are customizable via a extension system, by creating a theme.
+* You can setup any arbitrary modal keymap (not yet documented).
+
+**Disadvantages:**
+
+* Stable is slow on startup.  
+ * In the unstable master, the first startup is slow (~5 seconds for minimal setup), (~20 seconds for my startup)
+ * The second second startup is much quicker (for my complex setup it is ~4 seconds). 
+ * This is because ergoemacs-mode is changing and caching every active keymap in emacs. On second startup, these settings are saved.
+* Complex code.
 
 It's more complex of course, but goals of Ergoemacs Mode are entirely
 different from goals of this package and do not include “lightweightness”.
