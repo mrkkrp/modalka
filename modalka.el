@@ -4,7 +4,7 @@
 ;;
 ;; Author: Mark Karpov <markkarpov@openmailbox.org>
 ;; URL: https://github.com/mrkkrp/modalka
-;; Version: 0.1.4
+;; Version: 0.1.5
 ;; Package-Requires: ((emacs "24.4"))
 ;; Keywords: modal editing
 ;;
@@ -75,8 +75,9 @@ This variable is considered when Modalka is enabled globally via
   "This is Modalka mode map, used to translate your keys.")
 
 ;;;###autoload
-(defun modalka-define-key (actual-key target-key)
-  "Register translation from ACTUAL-KEY to TARGET-KEY."
+(defun modalka-define-key (actual-key target-key &optional exit)
+  "Register translation from ACTUAL-KEY to TARGET-KEY.
+If EXIT is t, exit `modalka-mode' before running TARGET-KEY function."
   (define-key
     modalka-mode-map
     actual-key
@@ -86,6 +87,8 @@ This variable is considered when Modalka is enabled globally via
         (let ((binding (key-binding target-key)))
           (unless (or (memq binding '(nil undefined))
                       (keymapp binding))
+            (when (and exit modalka-mode)
+              (modalka-mode -1))
             (call-interactively binding))))
       `(format "This command translates %s into %s, which calls `%s'."
                (key-description ,actual-key)
@@ -93,12 +96,37 @@ This variable is considered when Modalka is enabled globally via
                (key-binding     ,target-key)))))
 
 ;;;###autoload
-(defun modalka-define-kbd (actual-kbd target-kbd)
+(defun modalka-define-kbd (actual-kbd target-kbd &optional exit)
   "Register translation from ACTUAL-KBD to TARGET-KBD.
+If EXIT is t, exit `modalka-mode' before running TARGET-KBD function.
 
 Arguments are accepted in in the format used for saving keyboard
 macros (see `edmacro-mode')."
-  (modalka-define-key (kbd actual-kbd) (kbd target-kbd)))
+  (modalka-define-key (kbd actual-kbd) (kbd target-kbd) exit))
+
+;;;###autoload
+(defun modalka-define-key-command (key command &optional exit)
+  "Register KEY to COMMAND.
+If EXIT is t, exit `modalka-mode' before running COMMAND."
+  (if exit
+      (define-key
+        modalka-mode-map
+        key
+        (defalias (make-symbol (concat "modalka-exit-then-"
+                                       (symbol-name command)))
+          (lambda ()
+            (interactive)
+            (modalka-mode -1)
+            (call-interactively command))
+          `(format "Exit `modalka-mode', then run original command:\n\n%s"
+                   ,(documentation ,command))))
+    (define-key modalka-mode-map key command)))
+
+;;;###autoload
+(defun modalka-define-kbd-command (kbd-key command &optional exit)
+  "Register KBD-KEY to COMMAND.
+If EXIT is t, exit `modalka-mode' before running COMMAND."
+  (modalka-define-key-command (kbd kbd-key) command exit))
 
 ;;;###autoload
 (defun modalka-remove-key (key)

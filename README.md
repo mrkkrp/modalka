@@ -214,11 +214,20 @@ adopt:
 (modalka-define-kbd "e" "C-e")
 (modalka-define-kbd "f" "C-f")
 (modalka-define-kbd "g" "C-g")
-(modalka-define-kbd "n" "C-n")
-(modalka-define-kbd "p" "C-p")
 (modalka-define-kbd "w" "C-w")
 (modalka-define-kbd "y" "C-y")
 (modalka-define-kbd "SPC" "C-SPC")
+
+(modalka-define-kbd-command "n" #'next-line)
+(modalka-define-kbd-command "p" #'previous-line)
+```
+
+You can also set the optional `exit` argument to `t` in order to exit
+`modalka-mode` before the command is run.
+
+```emacs-lisp
+(modalka-define-kbd "E" "C-e" t)
+(modalka-define-kbd-command "K" #'kill-whole-line t)
 ```
 
 For now you can use <kbd>M-x modalka-mode</kbd> to try it. When in normal
@@ -263,15 +272,20 @@ describes how to set up efficient modal editing and provides some tips.
 There is a set of functions to define key translations and to remove them:
 
 * `modalka-define-key`
+* `modalka-define-key-command`
 * `modalka-remove-key`
 
 Here are versions that wrap arguments with `kbd`:
 
 * `modalka-define-kbd`
+* `modalka-define-kbd-command`
 * `modalka-remove-kbd`
 
-Using these functions it's easy to setup your translation map. Note that
-target key binding cannot be prefix key (prefix keys will be ignored).
+Using these functions it's easy to setup your translation map, or just bind keys
+to commands. By setting the optional `exit` argument to `t`, `modalka-mode` will
+exit when the key is pressed. This is useful for commands where you want to edit
+text after running the command. Note that target key binding cannot be prefix
+key (prefix keys will be ignored).
 
 ### How to activate the minor mode
 
