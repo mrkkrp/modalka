@@ -25,8 +25,8 @@
 
 ;;; Commentary:
 
-;; This is a building kit to help switch to modal editing in Emacs.  Main
-;; goal of the package is making modal editing in Emacs as natural and
+;; This is a building kit to help switch to modal editing in Emacs.  The
+;; main goal of the package is making modal editing in Emacs as natural and
 ;; native as possible.  There is no hack, no corner cases, no emulation —
 ;; just start edit modally the way you want.
 ;;
@@ -38,7 +38,7 @@
 (require 'quail)
 
 (defgroup modalka nil
-  "Easily introduce native modal editing of your own design"
+  "Introduce native modal editing of your own design"
   :group  'editing
   :tag    "Modalka"
   :prefix "modalka-"
@@ -115,7 +115,7 @@ macros (see `edmacro-mode')."
 
 ;;;###autoload
 (define-minor-mode modalka-mode
-  "Toggle `modalka-mode' minor mode.
+  "Toggle the `modalka-mode' minor mode.
 
 With a prefix argument ARG, enable `modalka-mode' if ARG is
 positive, and disable it otherwise.  If called from Lisp, enable
