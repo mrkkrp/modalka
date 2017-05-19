@@ -28,16 +28,16 @@
 
 This is a building kit to help switch to modal editing in Emacs. The main
 goal of the package is making modal editing in Emacs as natural and native
-as possible. There is no hack, no corner cases, no emulation — just start
-edit modally the way you want.
+as possible. There is no hack, no corner cases, no emulation—just start edit
+modally the way you want.
 
 In this article I use “vimish” terms when I refer to modes of operation:
 
-* *Normal mode* — this is where you manipulate existing text, normal
+* *Normal mode*—this is where you manipulate existing text, normal
   characters typically run primitive editing operations instead of
   self-insertion.
 
-* *Insert mode* — in this mode characters are self-inserting, i.e. it's how
+* *Insert mode*—in this mode characters are self-inserting, i.e. it's how
   Emacs works by default.
 
 ### What Modalka is not
@@ -51,14 +51,14 @@ In this article I use “vimish” terms when I refer to modes of operation:
 
 ### Why should I use it then?
 
-Modal editing is more efficient, but most importantly it is better for your
+Modal editing is more efficient, but most importantly, it is better for your
 health. You should at least try it. This package allows easily switch from
-<kbd>⎈ Ctrl</kbd> (and other modifiers) -based key combinations to
-performing editing manipulations via normal typing experience and you can do
-it gradually using your own design (although it's recommended to keep it
-similar to commands you already have in *insert mode*).
+<kbd>⎈ Ctrl</kbd>-based key combinations to performing editing manipulations
+via normal typing experience and you can do it gradually using your own
+design (although it's recommended to keep it similar to commands you already
+have in *insert mode*).
 
-`grep`, `man`, `gnus` — all these goodies are recommended to be called using
+`grep`, `man`, `gnus`—all these goodies are recommended to be called using
 key sequences and calling of these commands should not necessarily be modal,
 you only should make modal “intense” editing commands that you use very
 often.
@@ -74,8 +74,8 @@ without the need for any sort of “bridge”.
 
 In this section I describe other solutions and compare them with this
 package. Some of the solutions are quite popular, others are almost not
-used. I'll attempt to guess why it is so and why Modalka may be worth
-trying.
+used. I'll attempt to guess why it is so and why Modalka may be worth trying
+out.
 
 #### Evil
 
@@ -120,7 +120,7 @@ essentially a hack. From my experience it has the following flaws:
 
 * Generalizing the previous points, in Emacs, given combination of keys may
   have different meaning depending on situation. Control Mode automatic
-  generation of key bindings puts them into stone.
+  generation of key bindings puts them in stone.
 
 * It generates more key bindings than necessary replacing key bindings that
   should not be used in “normal” mode. As I said, *you* should control your
@@ -150,7 +150,7 @@ However, compared to Modalka, God Mode has certain downsides:
 #### Boon
 
 [Boon](https://github.com/jyp/boon) is a package for modal editing with
-respect to ergonomics. This package gives you complete implementation of
+respect to ergonomics. This package gives you complete implementation of a
 modal editing system similar to Vim.
 
 It may take some time to learn it and I'm not entirely sure it will bring
@@ -176,7 +176,7 @@ for ergonomic modal editing optimized for *Dvorak* (QWERTY layout is said to
 be supported too). It's rather big compared to Boon and Fingers. If you look
 at source code you'll see that it has peculiar collection of editing
 primitives, for example you can capitalize things skipping words like “and”,
-“to”, “or”, etc. — functionality you rarely find in this sort of Emacs
+“to”, “or”, etc.—functionality you rarely find in this sort of Emacs
 package. Good dose of Unicode support is guaranteed too!
 
 #### Ergoemacs Mode
@@ -236,8 +236,8 @@ If you're missing numeric prefixes it's easy to add them:
 (modalka-define-kbd "2" "C-2")
 ```
 
-Now you can kill twenty-two lines <kbd>SPC 2 2 n w</kbd>. You get the idea,
-everything depends on your imagination now!
+Now you can kill twenty-two lines with <kbd>SPC 2 2 n w</kbd>. You get the
+idea, everything depends on your imagination!
 
 *Hint: some useful tips are described in [Usage](#usage) section.*
 
@@ -262,7 +262,7 @@ Here are versions that wrap arguments with `kbd`:
 * `modalka-remove-kbd`
 
 Using these functions it's easy to setup your translation map. Note that
-target key binding cannot be prefix key (prefix keys will be ignored).
+target key binding cannot be a prefix key (prefix keys will be ignored).
 
 If you want to bind a command in `monalka-mode` without performing
 keybinding translation, remember that `modalka-mode` is just a normal minor
@@ -293,8 +293,8 @@ configuration file:
 (modalka-global-mode 1)
 ```
 
-This will enable `modalka-mode` in every buffer except for minibuffer. You
-can also avoid enabling `modalka-mode` when buffer is in certain major
+This will enable `modalka-mode` in every buffer except for the minibuffer.
+You can also avoid enabling `modalka-mode` when buffer is in a certain major
 mode. To do that add names of major modes to `modalka-excluded-modes` list,
 like this:
 
@@ -319,13 +319,13 @@ You can omit all of these if you prefer always start in insert mode.
 know if you are in `modalka-mode` or not.
 
 However you can improve the visual feedback by using different shapes of
-cursor according to editing mode you are in (*normal mode* — `modalka-mode`
-and *insert mode* — your normal Emacs editing).
+cursor depending on editing mode you are in (*normal mode*—`modalka-mode`
+and *insert mode*—your normal Emacs editing).
 
-You can specify what your cursor looks like by setting `cursor-type` value.
-I suggest using vertical bar cursor in insert mode and box cursor in normal
-mode. Modalka uses cursor specified in `modalka-cursor-type` variable, so
-the whole setup might look like this:
+You can specify what your cursor looks like by setting value of the
+`cursor-type` variable. I suggest using vertical bar cursor in insert mode
+and box cursor in normal mode. Modalka uses cursor specified in
+`modalka-cursor-type` variable, so the whole setup might look like this:
 
 ```emacs-lisp
 (setq-default cursor-type '(bar . 1))
