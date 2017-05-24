@@ -56,7 +56,7 @@ health. You should at least try it. This package allows easily switch from
 <kbd>⎈ Ctrl</kbd>-based key combinations to performing editing manipulations
 via normal typing experience and you can do it gradually using your own
 design (although it's recommended to keep it similar to commands you already
-have in *insert mode*).
+have in the *insert mode*).
 
 `grep`, `man`, `gnus`—all these goodies are recommended to be called using
 key sequences and calling of these commands should not necessarily be modal,
@@ -65,9 +65,9 @@ often.
 
 The only thing you need to set up is how you activate the key bindings, make
 it easier. Here Modalka comes into play. It adds a thin wrapper that
-translates some normally self-inserting characters in normal mode into
-traditional key bindings that you specify. In insert mode everything works
-as usual. This way you can work with all existing packages “natively”,
+translates some normally self-inserting characters in the normal mode into
+traditional key bindings that you specify. In the insert mode everything
+works as usual. This way you can work with all existing packages “natively”,
 without the need for any sort of “bridge”.
 
 ### Other solutions
@@ -110,7 +110,7 @@ essentially a hack. From my experience it has the following flaws:
 
 * Automatic generation of key-bindings on the fly is always a bit dirty.
 
-* If you work with overlays that has local key maps this mode cannot handle
+* If you work with overlays that have local key maps this mode cannot handle
   this, you will need to disable it to interact with the overlays (for
   example if you are using packages to fold text).
 
@@ -123,8 +123,8 @@ essentially a hack. From my experience it has the following flaws:
   generation of key bindings puts them in stone.
 
 * It generates more key bindings than necessary replacing key bindings that
-  should not be used in “normal” mode. As I said, *you* should control your
-  key bindings, don't let an algorithm generate them automatically.
+  should not be used in the “normal” mode. As I said, *you* should control
+  your key bindings, don't let an algorithm generate them automatically.
 
 #### God Mode
 
@@ -144,7 +144,7 @@ However, compared to Modalka, God Mode has certain downsides:
 * Unlike Modalka, God Mode doesn't work with input methods enabled. This may
   be important for users working with non-Latin languages.
 
-* You don't need to write hooks to change shape to cursor according to
+* You don't need to write hooks to change the shape of cursor according to
   current mode with Modalka, it handles this for you.
 
 #### Boon
@@ -167,7 +167,7 @@ this is for *Colemak* typists.
 [Figners](https://github.com/fgeller/fingers.el) is another attempt on
 ergonomic modal editing. The same things said for Boon can be repeated here.
 Differences between these packages are not very significant except for the
-fact that Fingers is optimized for *Workman* keyboard layout.
+fact that Fingers is optimized for the *Workman* keyboard layout.
 
 #### Xah Fly Keys
 
@@ -208,7 +208,7 @@ modalka RET</kbd>.
 ## Example of use
 
 Let's try to bring modal editing to Emacs using the Modalka package. Here is
-simple collection of translations that an Emacs user could easily adopt:
+a simple collection of translations that an Emacs user could easily adopt:
 
 ```emacs-lisp
 (modalka-define-kbd "W" "M-w")
@@ -239,8 +239,6 @@ If you're missing numeric prefixes it's easy to add them:
 Now you can kill twenty-two lines with <kbd>SPC 2 2 n w</kbd>. You get the
 idea, everything depends on your imagination!
 
-*Hint: some useful tips are described in [Usage](#usage) section.*
-
 *For example of complete, “real word” setup
 see [this](https://github.com/mrkkrp/dot-emacs#modal-editing).*
 
@@ -264,7 +262,7 @@ Here are versions that wrap arguments with `kbd`:
 Using these functions it's easy to setup your translation map. Note that
 target key binding cannot be a prefix key (prefix keys will be ignored).
 
-If you want to bind a command in `monalka-mode` without performing
+If you want to bind a command in `monalka-mode` without performing a
 keybinding translation, remember that `modalka-mode` is just a normal minor
 mode which has an associated key map called `modalka-mode-map`. So you can
 do the following:
@@ -302,19 +300,19 @@ like this:
 (add-to-list 'modalka-excluded-modes 'magit-status-mode)
 ```
 
-However you may want to enable `modalka-mode` only in modes where you need
-to edit text:
+However you may want to enable `modalka-mode` only in the modes where you
+need to edit text:
 
 ```emacs-lisp
 (add-hook 'text-mode-hook #'modalka-mode)
 (add-hook 'prog-mode-hook #'modalka-mode)
 ```
 
-You can omit all of these if you prefer always start in insert mode.
+You can omit all of these if you prefer to always start in the insert mode.
 
 ### Change cursor shape for visual feedback
 
-`modalka-mode` comes with a lighter, currently it's in from of up arrow
+`modalka-mode` comes with a lighter, currently it's in the from of up arrow
 “↑”. I don't recommend disabling it because you need some visual feedback to
 know if you are in `modalka-mode` or not.
 
@@ -323,8 +321,8 @@ cursor depending on editing mode you are in (*normal mode*—`modalka-mode`
 and *insert mode*—your normal Emacs editing).
 
 You can specify what your cursor looks like by setting value of the
-`cursor-type` variable. I suggest using vertical bar cursor in insert mode
-and box cursor in normal mode. Modalka uses cursor specified in
+`cursor-type` variable. I suggest using vertical bar cursor in the insert
+mode and box cursor in the normal mode. Modalka uses cursor specified in the
 `modalka-cursor-type` variable, so the whole setup might look like this:
 
 ```emacs-lisp
@@ -336,10 +334,10 @@ And that's it! Now it's obvious what mode you're in.
 
 ## Customization
 
-`modalka-mode` is a normal minor mode. This means that you can use
-`modal-mode-hook` to define mode-specific hooks. You can use customization
-interface to customize Modalka-related variables like this: <kbd>M-x
-customize-group modalka RET</kbd>.
+`modalka-mode` is a normal minor mode. This means that you can use the
+`modalka-mode-hook` to define mode-specific hooks. You can use the
+customization interface to customize Modalka-related variables like this:
+<kbd>M-x customize-group modalka RET</kbd>.
 
 ## License
 
