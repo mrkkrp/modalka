@@ -150,7 +150,7 @@ However, compared to Modalka, God Mode has certain downsides:
 #### Boon
 
 [Boon](https://github.com/jyp/boon) is a package for modal editing with
-respect to ergonomics. This package gives you complete implementation of a
+emphasis on ergonomics. This package gives you complete implementation of a
 modal editing system similar to Vim.
 
 It may take some time to learn it and I'm not entirely sure it will bring
@@ -158,9 +158,9 @@ much difference. Modal editing is easier, but ergonomic layout of normal
 mode is somewhat optional for most people. I would value compatibility with
 the rest of Emacs ecosystem more.
 
-Of course it is far more complex than Modalka and you are not supposed to
-change layout (it's carefully designed for you). I also should note that
-this is for *Colemak* typists.
+Of course it is far more complex than Modalka and comes with a carefully
+chosen set of keybindings, for ergonomics purposes. Bindings come in 
+*Colemak* and *Qwerty* versions (no *Dvorak* nor *Workman*).
 
 #### Fingers
 
