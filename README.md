@@ -159,7 +159,7 @@ mode is somewhat optional for most people. I would value compatibility with
 the rest of Emacs ecosystem more.
 
 Of course it is far more complex than Modalka and comes with a carefully
-chosen set of keybindings, for ergonomics purposes. Bindings come in 
+chosen set of keybindings, for ergonomics purposes. Bindings come in
 *Colemak* and *Qwerty* versions (no *Dvorak* nor *Workman*).
 
 #### Fingers
