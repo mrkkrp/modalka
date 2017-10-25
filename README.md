@@ -164,7 +164,7 @@ chosen set of keybindings, for ergonomics purposes. Bindings come in
 
 #### Fingers
 
-[Figners](https://github.com/fgeller/fingers.el) is another attempt on
+[Fingers](https://github.com/fgeller/fingers.el) is another attempt on
 ergonomic modal editing. The same things said for Boon can be repeated here.
 Differences between these packages are not very significant except for the
 fact that Fingers is optimized for the *Workman* keyboard layout.
