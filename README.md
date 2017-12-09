@@ -262,7 +262,7 @@ Here are versions that wrap arguments with `kbd`:
 Using these functions it's easy to setup your translation map. Note that
 target key binding cannot be a prefix key (prefix keys will be ignored).
 
-If you want to bind a command in `monalka-mode` without performing a
+If you want to bind a command in `modalka-mode` without performing a
 keybinding translation, remember that `modalka-mode` is just a normal minor
 mode which has an associated key map called `modalka-mode-map`. So you can
 do the following:
