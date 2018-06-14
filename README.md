@@ -239,7 +239,7 @@ If you're missing numeric prefixes it's easy to add them:
 Now you can kill twenty-two lines with <kbd>SPC 2 2 n w</kbd>. You get the
 idea, everything depends on your imagination!
 
-*For example of complete, “real word” setup
+*For example of complete, “real world” setup
 see [this](https://github.com/mrkkrp/dot-emacs#modal-editing).*
 
 ## Usage
