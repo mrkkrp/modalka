@@ -75,10 +75,13 @@ This variable is considered when Modalka is enabled globally via
   "This is Modalka mode map, used to translate your keys.")
 
 ;;;###autoload
-(defun modalka-define-key (actual-key target-key)
-  "Register translation from ACTUAL-KEY to TARGET-KEY."
+(defun modalka-define-key (actual-key target-key &optional keymap)
+  "Register translation from ACTUAL-KEY to TARGET-KEY.
+
+If the optional argument keymap is given register the translation in
+KEYMAP instead of the default keymap."
   (define-key
-    modalka-mode-map
+    (if keymap keymap modalka-mode-map)
     actual-key
     (defalias (make-symbol "modalka-translation")
       (lambda ()
