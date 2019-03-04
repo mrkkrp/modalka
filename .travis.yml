@@ -4,6 +4,7 @@ env:
   matrix:
     - EVM_EMACS=emacs-24.5-travis
     - EVM_EMACS=emacs-25.3-travis
+    - EVM_EMACS=emacs-26.1-travis
 
 before_install:
   - git clone https://github.com/rejeep/evm.git $HOME/.evm
