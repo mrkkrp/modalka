@@ -341,6 +341,6 @@ customization interface to customize Modalka-related variables like this:
 
 ## License
 
-Copyright © 2015–2019 Mark Karpov
+Copyright © 2015–present Mark Karpov
 
 Distributed under GNU GPL, version 3.
