@@ -263,13 +263,36 @@ Using these functions it's easy to setup your translation map. Note that
 target key binding cannot be a prefix key (prefix keys will be ignored).
 
 If you want to bind a command in `modalka-mode` without performing a
-keybinding translation, remember that `modalka-mode` is just a normal minor
+keybinding translation you may use function `modalka-define-binding`
+or its version `modalka-define-binding-kbd` that wraps arguments in `kbd`:
+
+```emacs-lisp
+(modalka-define-binding-kbd "f" #'my-command)
+```
+
+Remember that `modalka-mode` is just a normal minor
 mode which has an associated key map called `modalka-mode-map`. So you can
 do the following:
 
 ```emacs-lisp
 (define-key modalka-mode-map (kbd "Q") #'my-command)
 ```
+
+### Alternative modes
+
+If you run out of keys in normal-mode, you may
+define extra modes in `modalka-mode`.
+In order to do this you need to supply an extra `state` argument
+to one of the translation definition commands like this:
+
+```emacs-lisp
+(modalka-define-kbd "a" "C-a" 'motion)
+(modalka-define-binding-kbd "f" #'forward-char 'motion)
+```
+
+This will create `motion` mode with its own keybindings.
+Switching between modes is done using interactive `modalka-switch-state` function
+or its non-interactive version `modalka-change-state`.
 
 ### How to activate the minor mode
 
@@ -315,6 +338,13 @@ You can omit all of these if you prefer to always start in the insert mode.
 `modalka-mode` comes with a lighter, currently it's in the from of up arrow
 “↑”. I don't recommend disabling it because you need some visual feedback to
 know if you are in `modalka-mode` or not.
+
+When switching states, current state name will appear in square braces near arrow.
+This option is customizable:
+
+```emacs-lisp
+(custom-set-variables '(modalka-dynamic-lighter nil))
+```
 
 However you can improve the visual feedback by using different shapes of
 cursor depending on editing mode you are in (*normal mode*—`modalka-mode`

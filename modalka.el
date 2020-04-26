@@ -5,8 +5,8 @@
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/modalka
 ;; Version: 0.1.5
-;; Package-Requires: ((emacs "24.4"))
-;; Keywords: modal editing
+;; Package-Requires: ((emacs "25.1"))
+;; Keywords: convenience
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -45,7 +45,7 @@
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/modalka"))
 
 (defcustom modalka-cursor-type t
-  "Cursor type to use in `modalka-mode'.
+  "Cursor type to use in modalka mode.
 
 See description of `cursor-type' for mode information, this
 variable should follow the same conventions."
@@ -64,21 +64,45 @@ variable should follow the same conventions."
 
 ;;;###autoload
 (defcustom modalka-excluded-modes nil
-  "List of major modes for which `modalka-mode' should not be activated.
+  "List of major modes for which modalka mode should not be activated.
 
 This variable is considered when Modalka is enabled globally via
-`modalka-global-mode'."
+function `modalka-global-mode'."
   :tag  "Excluded Modes"
   :type '(repeat :tag "Major modes to exclude" symbol))
+
+(defcustom modalka-dynamic-lighter t
+  "Show state name in modalka lighter."
+  :tag  "Dynamic lighter"
+  :type 'boolean)
 
 (defvar modalka-mode-map (make-sparse-keymap)
   "This is Modalka mode map, used to translate your keys.")
 
+(defvar modalka--states (list)
+  "List of modalka states.  Default state is not in list.")
+
+(defmacro modalka--maybe-create-map (suffix)
+  "Create modalka state keymap with SUFFIX if does not exist."
+  (setq modalka--states (delete-dups (append modalka--states `(,suffix))))
+  (let ((name (intern (modalka--map-name suffix))))
+    `(progn
+       (unless (boundp (quote ,name))
+	 (defvar ,name (make-sparse-keymap)
+	   ,(format "This is Modalka mode map for state %s." suffix)))
+       (identity ,name))))
+
+(defun modalka--map-name (suffix)
+  "Get keymap name for given SUFFIX."
+  (concat "modalka-mode-map--" suffix))
+
 ;;;###autoload
-(defun modalka-define-key (actual-key target-key)
-  "Register translation from ACTUAL-KEY to TARGET-KEY."
+(defun modalka-define-key (actual-key target-key &optional state)
+  "Register translation from ACTUAL-KEY to TARGET-KEY for STATE.
+
+If STATE is omitted, default keymap will be used."
   (define-key
-    modalka-mode-map
+    (if state (eval `(modalka--maybe-create-map ,(symbol-name state))) modalka-mode-map)
     actual-key
     (defalias (make-symbol "modalka-translation")
       (lambda ()
@@ -93,25 +117,73 @@ This variable is considered when Modalka is enabled globally via
                (key-binding     ,target-key)))))
 
 ;;;###autoload
-(defun modalka-define-kbd (actual-kbd target-kbd)
-  "Register translation from ACTUAL-KBD to TARGET-KBD.
+(defun modalka-define-kbd (actual-kbd target-kbd &optional state)
+  "Register translation from ACTUAL-KBD to TARGET-KBD for STATE.
 
-Arguments are accepted in in the format used for saving keyboard
-macros (see `edmacro-mode')."
-  (modalka-define-key (kbd actual-kbd) (kbd target-kbd)))
-
-;;;###autoload
-(defun modalka-remove-key (key)
-  "Unregister translation from KEY."
-  (define-key modalka-mode-map key nil))
+Arguments are accepted in the format used for saving keyboard
+macros (see `edmacro-mode').
+If STATE is omitted, default keymap will be used."
+  (modalka-define-key (kbd actual-kbd) (kbd target-kbd) state))
 
 ;;;###autoload
-(defun modalka-remove-kbd (kbd)
-  "Unregister translation from KBD.
+(defun modalka-remove-key (key &optional state)
+  "Unregister translation from KEY in STATE keymap for STATE.
+
+If STATE is omitted, default keymap will be used."
+  (let ((keymap (if state (eval `(modalka--maybe-create-map ,(symbol-name state))) modalka-mode-map)))
+    (define-key keymap key nil)))
+
+;;;###autoload
+(defun modalka-remove-kbd (kbd &optional state)
+  "Unregister translation from KBD for STATE.
 
 Arguments are accepted in in the format used for saving keyboard
-macros (see `edmacro-mode')."
-  (modalka-remove-key (kbd kbd)))
+macros (see `edmacro-mode').
+If STATE is omitted, default keymap will be used."
+  (modalka-remove-key (kbd kbd) state))
+
+;;;###autoload
+(defun modalka-define-binding (key function &optional state)
+  "Assign KEY to FUNCTION for STATE.
+
+If STATE is omitted, default keymap will be used."
+  (let ((keymap (if state (eval `(modalka--maybe-create-map ,(symbol-name state))) modalka-mode-map)))
+    (define-key keymap key function)))
+
+;;;###autoload
+(defun modalka-define-binding-kbd (key function &optional state)
+  "Assign KEY to FUNCTION for STATE.
+
+Arguments are accepted in the format used for saving keyboard
+macros (see `edmacro-mode').
+If STATE is omitted, default keymap will be used."
+  (modalka-define-binding (kbd key) function state))
+
+;;;###autoload
+(defun modalka-change-state (&optional state)
+  "Switch STATE non-interactively.
+
+For interactive calls use `modalka-switch-state`.
+Set STATE to nil in order to enable default state."
+  (let ((state (if state (if (symbolp state) (symbol-name state) state) state)))
+    (setf (alist-get 'modalka-mode minor-mode-map-alist)
+          (if state
+              (eval `(modalka--maybe-create-map ,state))
+            modalka-mode-map))
+    (when modalka-dynamic-lighter
+      (setcar (cdr (assq 'modalka-mode minor-mode-alist))
+              (if state (format " ↑[%s]" state) " ↑")))))
+
+;;;###autoload
+(defun modalka-switch-state ()
+  "Switch state interactively.
+
+For non-interactive calls use `modalka-change-state`."
+  (interactive)
+  (let ((state (completing-read "State: " (append modalka--states '("*default*")))))
+    (if (string= state "*default*")
+	(modalka-change-state)
+      (modalka-change-state state))))
 
 ;;;###autoload
 (define-minor-mode modalka-mode
@@ -124,17 +196,17 @@ the mode if ARG is omitted or NIL, and toggle it if ARG is
 
 This minor mode setups translation of key bindings according to
 configuration created previously with `modalka-define-key' and
-`modalka-define-keys'."
-  nil "↑" modalka-mode-map
+`modalka-define-kbd'."
+  nil " ↑" modalka-mode-map
   (setq-local cursor-type
               (if modalka-mode
                   modalka-cursor-type
                 (default-value 'cursor-type))))
 
 (defun modalka--maybe-activate ()
-  "Activate `modalka-mode' if current buffer is not minibuffer or blacklisted.
+  "Activate modalka mode if current buffer is not minibuffer or blacklisted.
 
-This is used by `modalka-global-mode'."
+This is used by function `modalka-global-mode'."
   (unless (or (minibufferp)
               (member major-mode modalka-excluded-modes))
     (modalka-mode 1)))
@@ -145,7 +217,7 @@ This is used by `modalka-global-mode'."
   modalka--maybe-activate)
 
 (defun modalka--input-function-advice (fnc key)
-  "Call FNC with KEY as argument only when `modalka-mode' is disabled.
+  "Call FNC with KEY as argument only when modalka mode is disabled.
 
 Otherwise use `list'."
   (funcall (if modalka-mode #'list fnc) key))
