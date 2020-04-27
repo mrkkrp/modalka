@@ -76,8 +76,19 @@ function `modalka-global-mode'."
   :tag  "Dynamic lighter"
   :type 'boolean)
 
+(defcustom modalka-supress-global nil
+  "Global bindings will be disabled in modalka mode."
+  :tag  "Suppress global keymap."
+  :type 'boolean)
+
 (defvar modalka-mode-map (make-sparse-keymap)
   "This is Modalka mode map, used to translate your keys.")
+
+(defvar modalka--supress-map (make-keymap)
+  "Modalka suppress map.")
+(suppress-keymap modalka--supress-map)
+(when modalka-supress-global
+  (set-keymap-parent modalka-mode-map modalka--supress-map))
 
 (defvar modalka--states (list)
   "List of modalka states.  Default state is not in list.")
@@ -89,7 +100,9 @@ function `modalka-global-mode'."
     `(progn
        (unless (boundp (quote ,name))
 	 (defvar ,name (make-sparse-keymap)
-	   ,(format "This is Modalka mode map for state %s." suffix)))
+	   ,(format "This is Modalka mode map for state %s." suffix))
+         (when modalka-supress-global
+           (set-keymap-parent ,name modalka--supress-map)))
        (identity ,name))))
 
 (defun modalka--map-name (suffix)
