@@ -1,0 +1,9 @@
+name: CI
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: nixos/nix:2.3.6
+    steps:
+      - uses: actions/checkout@v2
+      - run: nix-build
