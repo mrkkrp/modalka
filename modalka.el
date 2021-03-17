@@ -1,4 +1,4 @@
-;;; modalka.el --- Easily introduce native modal editing of your own design -*- lexical-binding: t; -*-
+;;; modalka.el --- Modal editing your way -*- lexical-binding: t; -*-
 ;;
 ;; Copyright © 2015–present Mark Karpov <markkarpov92@gmail.com>
 ;;
@@ -25,10 +25,7 @@
 
 ;;; Commentary:
 
-;; This is a building kit to help switch to modal editing in Emacs.  The
-;; main goal of the package is making modal editing in Emacs as natural and
-;; native as possible.  There is no hack, no corner cases, no emulation—just
-;; start edit modally the way you want.
+;; This is a building kit to help switch to modal editing in Emacs.
 ;;
 ;; More information is available in the README.md file.
 
@@ -38,18 +35,18 @@
 (require 'quail)
 
 (defgroup modalka nil
-  "Introduce native modal editing of your own design"
+  "Modal editing your way"
   :group  'editing
   :tag    "Modalka"
   :prefix "modalka-"
   :link   '(url-link :tag "GitHub" "https://github.com/mrkkrp/modalka"))
 
 (defcustom modalka-cursor-type t
-  "Cursor type to use in `modalka-mode'.
+  "The cursor type to use in `modalka-mode'.
 
-See description of `cursor-type' for mode information, this
+See the description of `cursor-type' for mode information, this
 variable should follow the same conventions."
-  :tag "Cursor Type"
+  :tag "Cursor type"
   :type '(choice
           (const :tag "use the cursor specified for the frame" t)
           (const :tag "don't display a cursor" nil)
@@ -64,15 +61,15 @@ variable should follow the same conventions."
 
 ;;;###autoload
 (defcustom modalka-excluded-modes nil
-  "List of major modes for which `modalka-mode' should not be activated.
+  "A list of major modes in which `modalka-mode' should not be activated.
 
 This variable is considered when Modalka is enabled globally via
 `modalka-global-mode'."
-  :tag  "Excluded Modes"
+  :tag  "Excluded modes"
   :type '(repeat :tag "Major modes to exclude" symbol))
 
 (defvar modalka-mode-map (make-sparse-keymap)
-  "This is Modalka mode map, used to translate your keys.")
+  "This is the mode map that is used to translate your commands.")
 
 ;;;###autoload
 (defun modalka-define-key (actual-key target-key)
@@ -96,8 +93,8 @@ This variable is considered when Modalka is enabled globally via
 (defun modalka-define-kbd (actual-kbd target-kbd)
   "Register translation from ACTUAL-KBD to TARGET-KBD.
 
-Arguments are accepted in in the format used for saving keyboard
-macros (see `edmacro-mode')."
+The arguments are accepted in the format that is used for saving
+keyboard macros (see `edmacro-mode')."
   (modalka-define-key (kbd actual-kbd) (kbd target-kbd)))
 
 ;;;###autoload
@@ -109,20 +106,20 @@ macros (see `edmacro-mode')."
 (defun modalka-remove-kbd (kbd)
   "Unregister translation from KBD.
 
-Arguments are accepted in in the format used for saving keyboard
-macros (see `edmacro-mode')."
+The arguments are accepted in the format that is used for saving
+keyboard macros (see `edmacro-mode')."
   (modalka-remove-key (kbd kbd)))
 
 ;;;###autoload
 (define-minor-mode modalka-mode
-  "Toggle the `modalka-mode' minor mode.
+  "Toggle `modalka-mode'.
 
 With a prefix argument ARG, enable `modalka-mode' if ARG is
 positive, and disable it otherwise.  If called from Lisp, enable
 the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
-This minor mode setups translation of key bindings according to
+This minor mode setups translation of key bindings according to a
 configuration created previously with `modalka-define-key' and
 `modalka-define-keys'."
   nil "↑" modalka-mode-map
@@ -132,7 +129,10 @@ configuration created previously with `modalka-define-key' and
                 (default-value 'cursor-type))))
 
 (defun modalka--maybe-activate ()
-  "Activate `modalka-mode' if current buffer is not minibuffer or blacklisted.
+  "Activate `modalka-mode' in the current buffer if it is allowed.
+
+The function does not active the mode in the minibuffer if the
+major mode is in `modalka-excluded-modes'.
 
 This is used by `modalka-global-mode'."
   (unless (or (minibufferp)
@@ -145,7 +145,7 @@ This is used by `modalka-global-mode'."
   modalka--maybe-activate)
 
 (defun modalka--input-function-advice (fnc key)
-  "Call FNC with KEY as argument only when `modalka-mode' is disabled.
+  "Call FNC with KEY as an argument only when `modalka-mode' is disabled.
 
 Otherwise use `list'."
   (funcall (if modalka-mode #'list fnc) key))
