@@ -83,7 +83,8 @@ This variable is considered when Modalka is enabled globally via
         (let ((binding (key-binding target-key)))
           (unless (or (memq binding '(nil undefined))
                       (keymapp binding))
-            (call-interactively binding))))
+            (call-interactively binding)
+            (setq this-command binding))))
       `(format "This command translates %s into %s, which calls `%s'."
                (key-description ,actual-key)
                (key-description ,target-key)
