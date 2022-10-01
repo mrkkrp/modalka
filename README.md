@@ -116,8 +116,15 @@ Here are the versions that wrap their arguments with `kbd`:
 * `modalka-define-kbd`
 * `modalka-remove-kbd`
 
-Using these functions it's easy to setup a translation map. Note that the
-target key binding cannot be a prefix key (prefix keys will be ignored).
+Using these functions it's easy to setup a translation map.
+
+Note that the target key binding cannot be a prefix key:
+
+```emacs-lisp
+(modalka-define-kbd "x" "C-x") ;; will not work
+```
+
+Translations involving prefix keys will be ignored.
 
 If you want to bind a command in `modalka-mode` without performing a
 keybinding translation, remember that `modalka-mode` is just a normal minor
@@ -126,6 +133,14 @@ do the following:
 
 ```emacs-lisp
 (define-key modalka-mode-map (kbd "Q") #'my-command)
+```
+
+Using this approach it is possible to remap a prefix key like this:
+
+```emacs-lisp
+(define-key modalka-mode-map "x" ctl-x-map)
+(define-key ctl-x-map (kbd "e") #'eval-last-sexp)
+(define-key ctl-x-map (kbd "s") #'save-buffer)
 ```
 
 ### How to activate the minor mode
