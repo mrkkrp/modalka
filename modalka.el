@@ -35,7 +35,7 @@
 (require 'quail)
 
 (defgroup modalka nil
-  "Modal editing your way"
+  "Modal editing your way."
   :group  'editing
   :tag    "Modalka"
   :prefix "modalka-"
@@ -120,10 +120,12 @@ positive, and disable it otherwise.  If called from Lisp, enable
 the mode if ARG is omitted or NIL, and toggle it if ARG is
 `toggle'.
 
-This minor mode setups translation of key bindings according to a
-configuration created previously with `modalka-define-key' and
+This minor mode sets up translation of key bindings according to
+a configuration created previously with `modalka-define-key' and
 `modalka-define-keys'."
-  nil "↑" modalka-mode-map
+  :init-value nil
+  :lighter "↑"
+  :keymap modalka-mode-map
   (setq-local cursor-type
               (if modalka-mode
                   modalka-cursor-type
