@@ -6,7 +6,7 @@
 ;; URL: https://github.com/mrkkrp/modalka
 ;; Version: 0.1.5
 ;; Package-Requires: ((emacs "24.4"))
-;; Keywords: modal editing
+;; Keywords: convenience
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
