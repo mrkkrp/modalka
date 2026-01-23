@@ -77,7 +77,9 @@ This variable is considered when Modalka is enabled globally via
   (define-key
     modalka-mode-map
     actual-key
-    (defalias (make-symbol "modalka-translation")
+    (defalias (intern (format "modalka-translation-%s-%s"
+                              (base64-encode-string (prin1-to-string actual-key) t)
+                              (base64-encode-string (prin1-to-string target-key) t)))
       (lambda ()
         (interactive)
         (let ((binding (key-binding target-key)))
@@ -85,10 +87,9 @@ This variable is considered when Modalka is enabled globally via
                       (keymapp binding))
             (call-interactively binding)
             (setq this-command binding))))
-      `(format "This command translates %s into %s, which calls `%s'."
+      `(format "This command translates %s into %s."
                (key-description ,actual-key)
-               (key-description ,target-key)
-               (key-binding     ,target-key)))))
+               (key-description ,target-key)))))
 
 ;;;###autoload
 (defun modalka-define-kbd (actual-kbd target-kbd)
