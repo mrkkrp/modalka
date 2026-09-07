@@ -127,21 +127,32 @@ Note that the target key binding cannot be a prefix key:
 Translations involving prefix keys will be ignored.
 
 If you want to bind a command in `modalka-mode` without performing a
-keybinding translation, remember that `modalka-mode` is just a normal minor
-mode which has an associated key map called `modalka-mode-map`. So you can
-do the following:
+keybinding translation, remember that `modalka-mode` has an associated key
+map called `modalka-map`. So you can do the following:
 
 ```emacs-lisp
-(define-key modalka-mode-map (kbd "Q") #'my-command)
+(define-key modalka-map (kbd "Q") #'my-command)
 ```
 
 Using this approach it is possible to remap a prefix key like this:
 
 ```emacs-lisp
-(define-key modalka-mode-map "x" ctl-x-map)
+(define-key modalka-map "x" ctl-x-map)
 (define-key ctl-x-map (kbd "e") #'eval-last-sexp)
 (define-key ctl-x-map (kbd "s") #'save-buffer)
 ```
+
+`modalka-map` is registered in `emulation-mode-map-alists`, which means that
+its bindings take precedence over the bindings of all other minor modes and
+of the major mode. Only `overriding-terminal-local-map`,
+`overriding-local-map`, and `keymap` text and overlay properties—the
+mechanisms used by things like `isearch` and completion popups—still win
+over it.
+
+Before version 0.2.0 the key map was called `modalka-mode-map` and it was an
+ordinary minor mode map, so whether it won over another minor mode depended
+on the order in which the modes happened to be loaded. The old name is
+still available as an obsolete alias.
 
 ### How to activate the minor mode
 

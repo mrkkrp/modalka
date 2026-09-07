@@ -4,7 +4,7 @@
 ;;
 ;; Author: Mark Karpov <markkarpov92@gmail.com>
 ;; URL: https://github.com/mrkkrp/modalka
-;; Version: 0.1.5
+;; Version: 0.2.0
 ;; Package-Requires: ((emacs "24.4"))
 ;; Keywords: convenience
 ;;
@@ -68,14 +68,24 @@ This variable is considered when Modalka is enabled globally via
   :tag  "Excluded modes"
   :type '(repeat :tag "Major modes to exclude" symbol))
 
-(defvar modalka-mode-map (make-sparse-keymap)
+(define-obsolete-variable-alias 'modalka-mode-map 'modalka-map "0.2.0")
+
+(defvar modalka-map (make-sparse-keymap)
   "This is the mode map that is used to translate your commands.")
+
+(defvar modalka--emulation-alist `((modalka-mode . ,modalka-map))
+  "The entry that registers `modalka-map' in `emulation-mode-map-alists'.
+
+This makes the bindings of `modalka-map' take precedence over the
+bindings of all other minor modes and of the major mode.")
+
+(add-to-list 'emulation-mode-map-alists 'modalka--emulation-alist)
 
 ;;;###autoload
 (defun modalka-define-key (actual-key target-key)
   "Register translation from ACTUAL-KEY to TARGET-KEY."
   (define-key
-    modalka-mode-map
+    modalka-map
     actual-key
     (defalias (intern (format "modalka-translation-%s-%s"
                               (base64-encode-string (prin1-to-string actual-key) t)
@@ -102,7 +112,7 @@ keyboard macros (see `edmacro-mode')."
 ;;;###autoload
 (defun modalka-remove-key (key)
   "Unregister translation from KEY."
-  (define-key modalka-mode-map key nil))
+  (define-key modalka-map key nil))
 
 ;;;###autoload
 (defun modalka-remove-kbd (kbd)
@@ -111,6 +121,13 @@ keyboard macros (see `edmacro-mode')."
 The arguments are accepted in the format that is used for saving
 keyboard macros (see `edmacro-mode')."
   (modalka-remove-key (kbd kbd)))
+
+;; NOTE There is no `:keymap' here because `modalka-map' is activated through
+;; `emulation-mode-map-alists'.  `define-minor-mode' still registers the map
+;; in `minor-mode-map-alist' on its own, because the obsolete alias makes the
+;; conventionally named `modalka-mode-map' bound.  That extra entry is
+;; harmless: it holds the very same keymap, is guarded by the very same
+;; variable, and is only ever consulted after the emulation entry.
 
 ;;;###autoload
 (define-minor-mode modalka-mode
@@ -126,7 +143,6 @@ a configuration created previously with `modalka-define-key' and
 `modalka-define-kbd'."
   :init-value nil
   :lighter "↑"
-  :keymap modalka-mode-map
   (setq-local cursor-type
               (if modalka-mode
                   modalka-cursor-type
